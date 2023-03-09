@@ -3,7 +3,6 @@ package com.example.blog.config;
 import com.example.blog.config.jwt.JwtAuthenticationFilter;
 import com.example.blog.config.jwt.JwtAuthorizationFilter;
 import com.example.blog.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
 @Configuration
-@EnableWebSecurity // 시큐리티 활성화 -> 기본 스프링 필터체인에 등록
+@EnableWebSecurity // 시큐리티 -> 스프링 서버 보안에 관련된 코드
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
     @Autowired

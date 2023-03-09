@@ -2,26 +2,14 @@ package com.example.blog.service;
 
 import com.example.blog.domain.dto.request.JoinCheckDTO;
 import com.example.blog.domain.dto.request.JoinRequestDTO;
-import com.example.blog.domain.dto.request.UserChangeDTO;
-import com.example.blog.domain.dto.response.MyDTO;
-import com.example.blog.domain.dto.response.PostListDTO;
 import com.example.blog.domain.dto.response.UserDTO;
-import com.example.blog.domain.entity.Likes;
-import com.example.blog.domain.entity.Post;
 import com.example.blog.domain.entity.User;
-import com.example.blog.repository.LikeRepository;
-import com.example.blog.repository.PostRepository;
 import com.example.blog.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -30,8 +18,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder encoder;
-
-
+    
     public boolean check(JoinCheckDTO joinCheckDTO){
         User user = userRepository.findById(joinCheckDTO.getId());
         return user == null;
@@ -40,6 +27,7 @@ public class UserService {
 
     @Transactional
     public UserDTO join(JoinRequestDTO joinRequestDTO){
+        // User 테이블에 DTO에 보낸 id를 가진 유저가 있는지
         User check = userRepository.findById(joinRequestDTO.getId());
         if(check!=null){
            return null;

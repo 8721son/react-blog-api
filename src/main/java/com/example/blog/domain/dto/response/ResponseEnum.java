@@ -6,6 +6,7 @@ import lombok.Getter;
 public enum ResponseEnum {
 
     JOIN_SUCCESS(200,"회원가입에 성공했습니다."),
+    USER_ID_DUPLICATION(-1,"이미 사용중인 아이디입니다."),
     ;
 
     private int code;

@@ -1,7 +1,5 @@
 package com.example.blog.domain.entity;
 
-import com.example.blog.domain.dto.response.PostDTO;
-import com.example.blog.domain.dto.response.PostListDTO;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -22,12 +20,12 @@ import java.time.LocalDateTime;
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idx;
-    private String title;
-    private String thumbnail;
-    private String content;
-    private String summary;
-    private int userIdx;
+    private int idx; // 인덱스
+    private String title; // 글 제목
+    private String thumbnail; // 썸네일
+    private String content; // 내용
+    private String summary; // 요약
+    private int userIdx; // 작성한 유저 인덱스
     @CreationTimestamp
     private LocalDateTime createDate;
     @UpdateTimestamp
