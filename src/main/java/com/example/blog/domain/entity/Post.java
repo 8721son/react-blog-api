@@ -41,6 +41,7 @@ public class Post {
                             .content(content)
                             .userIdx(userIdx)
                             .thumbnail(thumbnail)
+                            .createDate(createDate)
                             .build();
         return dto;
     }

@@ -2,11 +2,13 @@ package com.example.blog.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.blog.domain.dto.request.PostSaveRequestDTO;
+import com.example.blog.domain.dto.response.LikeDTO;
 import com.example.blog.domain.dto.response.PostDTO;
 import com.example.blog.domain.dto.response.PostListDTO;
 import com.example.blog.domain.entity.Likes;
@@ -65,5 +67,40 @@ public class PostService {
         return posts;
     }
 
+    public PostDTO getPost(int postIdx, int userIdx){
+        PostDTO postDTO = postRepository.findByIdx(postIdx).toDTO();
+       
+        List<Likes> list = likeRepository.findByPostIdx(postDTO.getIdx());
+        postDTO.setLike(list.size());
+       
+        User writer = userRepository.findByIdx(postDTO.getUserIdx());
+        postDTO.setWriter(writer.toDTO());
+
+        Optional<Likes> optional = 
+            likeRepository.findByPostIdxAndUserIdx(postIdx, userIdx);
+            
+        postDTO.setLikeClicked(optional.isPresent());
+        
+        return postDTO;
+    }
+
+    @Transactional  //삭제, 수정
+    public LikeDTO like(int postIdx, int userIdx){
+       Optional<Likes> optional = likeRepository
+                            .findByPostIdxAndUserIdx(postIdx, userIdx);
+
+        if(optional.isPresent()){
+            //삭제
+            likeRepository.deleteByPostIdxAndUserIdx(postIdx, userIdx);
+            return null;
+        }else{
+            //insert
+            Likes likes = likeRepository.save(Likes.builder()
+                                        .postIdx(postIdx)
+                                        .userIdx(userIdx)
+                                        .build());
+            return likes.toDTO();
+        }
+    }
 
 }

@@ -4,6 +4,8 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.example.blog.domain.dto.response.LikeDTO;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,4 +31,11 @@ public class Likes {
     @UpdateTimestamp
     private LocalDateTime updateDate;
 
+
+    public LikeDTO toDTO(){
+        return LikeDTO.builder()
+            .postIdx(postIdx)
+            .userIdx(userIdx)
+            .build();
+    }
 }
