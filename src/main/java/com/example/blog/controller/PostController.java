@@ -2,6 +2,8 @@ package com.example.blog.controller;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import com.example.blog.config.auth.PrincipalDetails;
 import com.example.blog.domain.dto.request.PostSaveRequestDTO;
 import com.example.blog.domain.dto.response.PostDTO;
+import com.example.blog.domain.dto.response.PostListDTO;
 import com.example.blog.domain.dto.response.ResponseDTO;
 import com.example.blog.domain.dto.response.ResponseEnum;
 import com.example.blog.service.PostService;
@@ -36,6 +39,16 @@ public class PostController {
             return new ResponseEntity<>(
                 new ResponseDTO(
                     ResponseEnum.POST_SAVE_SUCCESS, dto),HttpStatus.OK);
+    }
+
+
+    @GetMapping("")
+    public HttpEntity<ResponseDTO> getPosts(){
+        List<PostListDTO> dto = postService.getPosts();
+
+        return new ResponseEntity<>(
+                new ResponseDTO(
+                    ResponseEnum.POST_SELECT_ALL_SUCCESS, dto),HttpStatus.OK);
     }
 
 }

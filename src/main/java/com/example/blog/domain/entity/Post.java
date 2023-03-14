@@ -6,6 +6,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.cglib.core.Local;
 
 import com.example.blog.domain.dto.response.PostDTO;
+import com.example.blog.domain.dto.response.PostListDTO;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -39,6 +40,18 @@ public class Post {
                             .title(title)
                             .content(content)
                             .userIdx(userIdx)
+                            .thumbnail(thumbnail)
+                            .build();
+        return dto;
+    }
+
+    public PostListDTO toListDTO(){
+        PostListDTO dto = PostListDTO.builder()
+                            .idx(idx)
+                            .title(title)
+                            .createDate(createDate)
+                            .userIdx(userIdx)
+                            .summary(summary)
                             .thumbnail(thumbnail)
                             .build();
         return dto;
