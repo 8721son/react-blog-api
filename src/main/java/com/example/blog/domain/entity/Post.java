@@ -5,6 +5,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.cglib.core.Local;
 
+import com.example.blog.domain.dto.response.PostDTO;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,4 +32,15 @@ public class Post {
     private LocalDateTime createDate;
     @UpdateTimestamp
     private LocalDateTime updateDate;
+
+    public PostDTO toDTO(){
+        PostDTO dto = PostDTO.builder()
+                            .idx(idx)
+                            .title(title)
+                            .content(content)
+                            .userIdx(userIdx)
+                            .thumbnail(thumbnail)
+                            .build();
+        return dto;
+    }
 }
