@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.blog.config.auth.PrincipalDetails;
 import com.example.blog.domain.dto.request.PostSaveRequestDTO;
+import com.example.blog.domain.dto.request.PostUpdateRequestDTO;
 import com.example.blog.domain.dto.response.LikeDTO;
 import com.example.blog.domain.dto.response.PostDTO;
 import com.example.blog.domain.dto.response.PostListDTO;
@@ -102,5 +103,19 @@ public class PostController {
                 new ResponseDTO(
                     ResponseEnum.POST_DELETE_FAIL, bool),HttpStatus.OK);
         }
+    }
+
+    @PutMapping("/update/{postIdx}")
+    public HttpEntity<ResponseDTO> updatePost(@PathVariable int postIdx
+                                            ,Authentication authentication
+                                            ,@RequestBody PostUpdateRequestDTO postUpdateRequestDTO){
+        PrincipalDetails principal = (PrincipalDetails) 
+        authentication.getPrincipal();
+        int userIdx = principal.getUser().getIdx();
+
+        PostDTO dto = postService.updatePost(postIdx, userIdx, postUpdateRequestDTO);
+        return new ResponseEntity<>(
+            new ResponseDTO(
+                ResponseEnum.POST_UPDATE_SUCCESS, dto),HttpStatus.OK);
     }
 }

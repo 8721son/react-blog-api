@@ -13,4 +13,6 @@ public interface LikeRepository extends JpaRepository<Likes,Integer> {
     Optional<Likes> findByPostIdxAndUserIdx(int postIdx, int userIdx);
     void deleteByPostIdxAndUserIdx(int postIdx,int userIdx);
     void deleteByPostIdx(int postIdx);
+    List<Likes> findByUserIdx(int userIdx);
+    
 }

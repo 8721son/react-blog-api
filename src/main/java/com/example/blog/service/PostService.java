@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.blog.domain.dto.request.PostSaveRequestDTO;
+import com.example.blog.domain.dto.request.PostUpdateRequestDTO;
 import com.example.blog.domain.dto.response.LikeDTO;
 import com.example.blog.domain.dto.response.PostDTO;
 import com.example.blog.domain.dto.response.PostListDTO;
@@ -116,6 +117,41 @@ public class PostService {
         }
         // 삭제 x
         return false;
+    }
+
+    @Transactional //수정, 삭제
+    public PostDTO updatePost(int postIdx,int userIdx,PostUpdateRequestDTO postUpdateRequestDTO){
+        // postIdx 게시물 조회해서 작성자가 일치하는지
+        Post post = postRepository.findByIdx(postIdx);
+        if(post.getUserIdx()!=userIdx){
+           return null;
+        }
+
+        // jpa
+        // 저장 -> 객체를 만들어서 save()
+        // 수정 -> 객체를 조회해서 set method만 호출하면 
+        // updatePost함수가 종료되는 시점에 자동으로 update 쿼리 날려줌
+        post.setTitle(postUpdateRequestDTO.getTitle());
+        post.setContent(postUpdateRequestDTO.getContent());
+        post.setThumbnail(postUpdateRequestDTO.getThumbnail());
+        post.setSummary(postUpdateRequestDTO.getSummary());
+        
+        // postDTO로 변환(좋아요개수, 내가 눌렀는지)해서 리턴
+        PostDTO dto = post.toDTO();
+
+        // 좋아요 개수
+        List<Likes> list = likeRepository.findByPostIdx(post.getIdx());
+        dto.setLike(list.size());
+        
+        // 좋아요 눌렀는지
+        Optional<Likes> optional = likeRepository.findByPostIdxAndUserIdx(postIdx, userIdx);
+        dto.setLikeClicked(optional.isPresent());
+       
+        // 작성자 정보
+        User writer = userRepository.findByIdx(post.getUserIdx());
+        dto.setWriter(writer.toDTO());
+
+        return dto;
     }
 
 }
