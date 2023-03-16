@@ -42,7 +42,6 @@ public class PostController {
                     ResponseEnum.POST_SAVE_SUCCESS, dto),HttpStatus.OK);
     }
 
-
     @GetMapping("")
     public HttpEntity<ResponseDTO> getPosts(){
         List<PostListDTO> dto = postService.getPosts();
@@ -85,6 +84,23 @@ public class PostController {
                 new ResponseDTO(
                     ResponseEnum.LIKE_SAVE_SUCCESS, dto),HttpStatus.OK);
         }
+    }
 
+    @DeleteMapping("/delete/{postIdx}")
+    public HttpEntity<ResponseDTO> deletePost(@PathVariable int postIdx,
+                                                Authentication authentication){
+        PrincipalDetails principal = (PrincipalDetails) 
+                                authentication.getPrincipal();
+        int userIdx = principal.getUser().getIdx();
+        boolean bool = postService.deletePost(postIdx, userIdx);
+        if(bool){
+            return new ResponseEntity<>(
+                new ResponseDTO(
+                    ResponseEnum.POST_DELETE_SUCCESS, bool),HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(
+                new ResponseDTO(
+                    ResponseEnum.POST_DELETE_FAIL, bool),HttpStatus.OK);
+        }
     }
 }

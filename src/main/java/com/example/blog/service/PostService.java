@@ -103,4 +103,19 @@ public class PostService {
         }
     }
 
+    @Transactional
+    public boolean deletePost(int postIdx, int userIdx){
+        Post post = postRepository.findByIdx(postIdx);
+        if(post.getUserIdx()==userIdx){
+            //삭제
+            // 좋아요 기록 다 지우기
+            // 게시물 지우기
+            likeRepository.deleteByPostIdx(postIdx);
+            postRepository.deleteByIdx(postIdx);
+            return true;
+        }
+        // 삭제 x
+        return false;
+    }
+
 }

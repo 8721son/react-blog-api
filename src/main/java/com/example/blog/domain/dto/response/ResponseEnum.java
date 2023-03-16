@@ -12,6 +12,8 @@ public enum ResponseEnum {
     POST_SELECT_SUCCESS(200,"게시물 단건 조회에 성공했습니다."),
     LIKE_SAVE_SUCCESS(200,"좋아요 저장에 성공했습니다."),
     LIKE_CANCEL_SUCCESS(-1,"좋아요 취소에 성공했습니다."),
+    POST_DELETE_SUCCESS(200,"게시물 삭제에 성공했습니다."),
+    POST_DELETE_FAIL(-1,"게시물 삭제에 실패했습니다."),
     ;
 
     private int code;
