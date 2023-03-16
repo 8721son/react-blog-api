@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.blog.config.auth.PrincipalDetails;
 import com.example.blog.domain.dto.request.JoinRequestDTO;
+import com.example.blog.domain.dto.request.UserUpdateDTO;
 import com.example.blog.domain.dto.response.MyDTO;
 import com.example.blog.domain.dto.response.ResponseDTO;
 import com.example.blog.domain.dto.response.ResponseEnum;
@@ -49,4 +50,16 @@ public class UserController {
                     ResponseEnum.MY_SELECT_SUCCESS, dto),HttpStatus.OK);
     }
 
+
+    @PutMapping("/update")
+    public HttpEntity<ResponseDTO> update(Authentication authentication, @RequestBody UserUpdateDTO userUpdateDTO){
+        PrincipalDetails principal = (PrincipalDetails) 
+                                        authentication.getPrincipal();
+        int userIdx = principal.getUser().getIdx();
+        UserDTO dto =userService.update(userIdx, userUpdateDTO);
+        System.out.println(userUpdateDTO.getProfileImage());
+        return new ResponseEntity<>(
+                new ResponseDTO(
+                    ResponseEnum.USER_UPDATE_SUCCESS, dto),HttpStatus.OK);
+    }
 }

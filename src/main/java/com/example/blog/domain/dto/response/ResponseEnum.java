@@ -16,6 +16,7 @@ public enum ResponseEnum {
     POST_DELETE_FAIL(-1,"게시물 삭제에 실패했습니다."),
     POST_UPDATE_SUCCESS(200,"게시물 수정에 성공했습니다."),
     MY_SELECT_SUCCESS(200,"마이페이지 조회에 성공했습니다."),
+    USER_UPDATE_SUCCESS(200,"유저 정보 수정에 성공했습니다."),
     ;
 
     private int code;

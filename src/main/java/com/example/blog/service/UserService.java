@@ -2,6 +2,7 @@ package com.example.blog.service;
 
 import com.example.blog.domain.dto.request.JoinCheckDTO;
 import com.example.blog.domain.dto.request.JoinRequestDTO;
+import com.example.blog.domain.dto.request.UserUpdateDTO;
 import com.example.blog.domain.dto.response.MyDTO;
 import com.example.blog.domain.dto.response.PostListDTO;
 import com.example.blog.domain.dto.response.UserDTO;
@@ -97,4 +98,12 @@ public class UserService {
         return myDTO;
     }
 
+    @Transactional
+    public UserDTO update(int userIdx, UserUpdateDTO userUpdateDTO){
+       User user = userRepository.findByIdx(userIdx);
+       user.setPassword(encoder.encode(userUpdateDTO.getPassword()));
+       user.setProfileImage(userUpdateDTO.getProfileImage());
+       user.setSimpleDesc(userUpdateDTO.getSimpleDesc());
+       return user.toDTO();
+    }
 }
